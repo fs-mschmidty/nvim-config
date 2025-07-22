@@ -16,23 +16,33 @@ return {
 						vim.api.nvim_buf_set_keymap(
 							0,
 							"n",
+							"<LocalLeader>dd",
+							":normal! viw<CR><Plug>RDSendSelection",
+							{ noremap = true }
+						)
+						if vim.bo.filetype == "rmd" or vim.bo.filetype == "quarto" then
+							vim.api.nvim_buf_set_keymap(0, "i", "``", "<Plug>RmdInsertChunk", { noremap = true })
+						end
+						vim.api.nvim_buf_set_keymap(
+							0,
+							"n",
 							"<LocalLeader>m",
 							"<Cmd>lua require('r.send').cmd('tar_make()')<CR>",
-							{}
+							{ noremap = true }
 						)
 						vim.api.nvim_buf_set_keymap(
 							0,
 							"n",
 							"<LocalLeader>le",
 							"<Cmd>lua require('r.send').cmd('targets::tar_load_everything()')<CR>",
-							{}
+							{ noremap = true }
 						)
 						vim.api.nvim_buf_set_keymap(
 							0,
 							"n",
 							"<LocalLeader>ll",
 							"<Cmd>lua require('r.run').action('tar_load')<CR>",
-							{}
+							{ noremap = true }
 						)
 						vim.api.nvim_buf_set_keymap(
 							0,
@@ -48,40 +58,45 @@ return {
 							"<Cmd>lua require('r.run').action('tar_read')<CR>",
 							{}
 						)
-						vim.api.nvim_buf_set_keymap(
-							0,
-							"n",
-							"<LocalLeader>ss",
-							":normal! viw<CR><Plug>RDSendSelection",
-							{}
-						)
+						-- vim.api.nvim_buf_set_keymap(
+						-- 	0,
+						-- 	"n",
+						-- 	"<LocalLeader>ss",
+						-- 	":normal! viw<CR><Plug>RDSendSelection",
+						-- 	{}
+						-- )
 					end,
 				},
 				view_df = {
-					open_app = "terminal:vd",
+					open_app = "terminal:VisiData",
 				},
+				R_path = "C:\\Users\\MichaelSchmidt2\\AppData\\Local\\Programs\\R\\R-4.4.3\\bin\\x64",
 				min_editor_width = 72,
 				rconsole_width = 78,
-				rmdchunk = "``",
-				auto_start = "on startup",
+				synctex = false,
+				pdfviewer = "",
 				disable_cmds = {
 					"RClearConsole",
 					"RCustomStart",
 					"RSPlot",
 					"RSaveClose",
+					"RSendLine",
+					"RSendMotion",
+					"RObjectPr",
 				},
 			}
+
 			-- Check if the environment variable "R_AUTO_START" exists.
 			-- If using fish shell, you could put in your config.fish:
 			-- alias r "R_AUTO_START=true nvim"
 			if vim.env.R_AUTO_START == "true" then
-				opts.auto_start = 1
+				opts.auto_start = "on startup"
 				opts.objbr_auto_start = true
 			end
-			if vim.loop.os_uname().sysname == "Windows_NT" then
-				opts.R_path = "C:\\Users\\MichaelSchmidt2\\AppData\\Local\\Programs\\R\\R-4.3.0\\bin\\x64"
-			else
-			end
+			-- if vim.loop.os_uname.sysname == "Windows_NT" then
+			-- 	-- opts.R_path = "C:\\Users\\MichaelSchmidt2\\AppData\\Local\\Programs\\R\\R-4.3.0\\bin\\x64"
+			-- 	opts.R_path = "C:\\Users\\MichaelSchmidt2\\AppData\\Local\\Programs\\R\\R-4.4.3\\bin\\x64"
+			-- end
 			require("r").setup(opts)
 			vim.g.rout_follow_colorscheme = true
 		end,

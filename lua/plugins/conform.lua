@@ -20,14 +20,15 @@ return {
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				markdown = { "prettier" },
-				quarto = { "prettier","my_styler" },
-				r = { "my_styler" },
-				rmd = { "my_styler" },
+				quarto = { "injected" },
+				r = { "air" },
+				rmd = { "injected" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
 				async = false,
-				timeout_ms = 3000,
+				timeout_ms = 2000,
+				format_injected = true,
 			},
 		})
 		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
@@ -35,6 +36,7 @@ return {
 				lsp_fallback = true,
 				async = false,
 				timeout_ms = 2000,
+				format_injected = true,
 			})
 		end, { desc = "Format file or range (in visual mode)" })
 	end,
