@@ -19,6 +19,9 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		lazy = false,
+		opts = {
+			inlay_hints = { enabled = true },
+		},
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -51,7 +54,7 @@ return {
 			})
 			lspconfig.ltex.setup({
 				cmd = { "ltex-ls" },
-				filetypes = { "markdown", "rmarkdown", "quarto" },
+				filetypes = { "markdown", "rmd", "quarto" },
 				settings = {
 					ltex = {
 						language = "en-US",
@@ -61,8 +64,6 @@ return {
 					},
 				},
 			})
-
-			-- Function to toggle ltex language server
 			function ToggleLtex()
 				local clients = vim.lsp.get_active_clients()
 				for _, client in ipairs(clients) do
@@ -78,6 +79,7 @@ return {
 				print("ltex language server started")
 			end
 			vim.keymap.set("n", "<leader>lt", ":lua ToggleLtex()<CR>", { noremap = true, silent = true })
+
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
 			vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
